@@ -1,0 +1,74 @@
+services:
+  mysql:
+    image: mysql:8.4
+    environment:
+      MYSQL_DATABASE: biopay
+      MYSQL_USER: biopay
+      MYSQL_PASSWORD: biopay_dev_password
+      MYSQL_ROOT_PASSWORD: root_dev_password
+    ports:
+      - "3307:3306"
+    volumes:
+      - biopay_mysql:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-proot_dev_password"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  redis:
+    image: redis:7.4-alpine
+    command: ["redis-server", "--appendonly", "yes"]
+    ports:
+      - "6379:6379"
+    volumes:
+      - biopay_redis:/data
+
+  biometric-risk:
+    build: ./services/biometric-risk
+    environment:
+      BIOPAY_RISK_THRESHOLD: "0.80"
+    ports:
+      - "8000:8000"
+
+  payment-core:
+    build: ./services/payment-core
+    depends_on:
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_started
+      biometric-risk:
+        condition: service_started
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/biopay?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      SPRING_DATASOURCE_USERNAME: biopay
+      SPRING_DATASOURCE_PASSWORD: biopay_dev_password
+      SPRING_DATA_REDIS_HOST: redis
+      SPRING_DATA_REDIS_PORT: 6379
+      BIOPAY_RISK_URL: http://biometric-risk:8000
+      BIOPAY_DEMO_MODE: "true"
+    ports:
+      - "8080:8080"
+
+  merchant-web:
+    build: ./frontend/merchant-web
+    depends_on:
+      - payment-core
+    environment:
+      NEXT_PUBLIC_PAYMENT_API_URL: http://localhost:8080
+    ports:
+      - "3000:3000"
+
+  customer-web:
+    build: ./frontend/customer-web
+    depends_on:
+      - payment-core
+    environment:
+      NEXT_PUBLIC_PAYMENT_API_URL: http://localhost:8080
+    ports:
+      - "3001:3000"
+
+volumes:
+  biopay_mysql:
+  biopay_redis:

@@ -1,0 +1,31 @@
+{
+  "timestamp": "2026-10-05T12:32:14.704624+00:00",
+  "simulation_prefix": "SIM-1d838a619448",
+  "requested": 5000,
+  "passed": 5000,
+  "failures": [],
+  "scenarios": {
+    "invalid_amount": 500,
+    "unsupported_currency": 500,
+    "unknown_payer": 500,
+    "excess_precision": 500,
+    "liveness_rejected": 500,
+    "device_rejected": 500,
+    "concurrent_replay": 500,
+    "approved": 500,
+    "insufficient_funds": 500,
+    "replay": 500
+  },
+  "invariants": {
+    "posted_transactions": 1500,
+    "ledger_entries": 3000,
+    "unbalanced_transactions": 0,
+    "total_wallet_balance": "160000.0000",
+    "merchant_balance": "15.0000",
+    "demo_balances_unchanged": true,
+    "wallet_ledger_mismatches": 0,
+    "approved_payments": 1500
+  },
+  "elapsed_seconds": 141.78,
+  "workers": 16
+}

@@ -1,0 +1,46 @@
+{
+  "pages": [
+    {
+      "name": "merchant",
+      "desktop_mobile": "passed",
+      "status": 200
+    },
+    {
+      "name": "customer",
+      "desktop_mobile": "passed",
+      "status": 200
+    },
+    {
+      "name": "api",
+      "desktop_mobile": "passed",
+      "status": 200
+    },
+    {
+      "name": "risk",
+      "desktop_mobile": "passed",
+      "status": 200
+    }
+  ],
+  "interaction_checks": [
+    "merchant amount validation",
+    "readable payment result",
+    "customer handoff link",
+    "auto-load linked payment",
+    "approval confirmation",
+    "approved payment cannot be resubmitted",
+    "invalid payment ID error",
+    "expired requests cannot be approved",
+    "different customer payment rejected by UI",
+    "unavailable wallet error",
+    "Swagger interactive risk request returns APPROVE"
+  ],
+  "errors": [],
+  "viewport_widths": [
+    1440,
+    1024,
+    768,
+    390,
+    320
+  ],
+  "final_api_restart_verified": true
+}

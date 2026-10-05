@@ -1,0 +1,21 @@
+{
+  "passed": true,
+  "checks": [
+    "retry after failed liveness",
+    "retry after invalid device",
+    "risk outage returns 503",
+    "risk outage preserves balance and pending payment",
+    "successful retry after risk recovery",
+    "malformed JSON returns readable 400",
+    "CORS accepts both demo apps"
+  ],
+  "invariants": {
+    "posted_transactions": 2,
+    "ledger_entries": 4,
+    "unbalanced_transactions": 0,
+    "wallet_ledger_mismatches": 0,
+    "approved_payments": 2,
+    "total_wallet_balance": "10000.0000",
+    "merchant_balance": "0.0200"
+  }
+}
